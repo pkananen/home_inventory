@@ -9,4 +9,11 @@ FactoryGirl.define do
 			admin true
 		end
 	end
+
+	factory :home do
+		home_type "House"
+		name "My House"
+		location "Anywhere, USA"
+		user
+	end
 end
