@@ -56,10 +56,23 @@ describe "UserPages" do
 
   describe "profile page" do
   	let(:user) {FactoryGirl.create(:user)}
+    let!(:home1) {FactoryGirl.create(:home, user: user, name: "Foo")}
+    let!(:home2) {FactoryGirl.create(:home, user: user, name: "Bar")}
+
   	before {visit user_path(user)}
 
   	it {should have_selector('h1', text: user.name)}
   	it {should have_selector('title', text: user.name)}
+
+    describe "homes" do
+      it {should have_content(home1.name)}
+      it {should have_content(home2.name)}
+      it {should have_content(home1.home_type)}
+      it {should have_content(home2.home_type)}
+      it {should have_content(home1.location)}
+      it {should have_content(home2.location)}
+      it {should have_content(user.homes.count)}
+    end
   end
 
   describe "edit" do

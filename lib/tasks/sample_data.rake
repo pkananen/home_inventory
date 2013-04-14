@@ -15,5 +15,13 @@ namespace :db do
 						 password: password,
 						 password_confirmation: password)
 		end
+
+		users = User.all(limit: 6)
+		2.times do
+			name = Faker::Lorem.sentence(2)
+			home_type = "House"
+			location = "Whatever, TX"
+			users.each { |user| user.homes.create!(name: name, home_type: home_type, location: location)}
+		end
 	end
 end
