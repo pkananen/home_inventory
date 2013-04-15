@@ -30,7 +30,8 @@ describe "Authentication" do
 
 			it {should have_selector('title', text: user.name)}
 
-			it {should have_link('Users', href: users_path)}
+			# **TODO** Users link not valid for normal users anymore
+			#it {should have_link('Users', href: users_path)}
 			it {should have_link('Profile', href: user_path(user))}
 			it {should have_link('Settings', href: edit_user_path(user))}
 			it {should have_link('Sign out', href: signout_path)}
@@ -65,7 +66,6 @@ describe "Authentication" do
 		describe "for non-signed-in users" do
 			let(:user) {FactoryGirl.create(:user)}
 
-			it {should_not have_link('Users', href: users_path)}
 			it {should_not have_link('Profile', href: user_path(user))}
 			it {should_not have_link('Settings', href: edit_user_path(user))}
 			it {should_not have_link('Sign out', href: signout_path)}
@@ -81,6 +81,8 @@ describe "Authentication" do
 					specify {response.should redirect_to(signin_path)}
 				end
 
+				# Visiting the user index while not logged in should result in rendering
+				# of the sign-in path.
 				describe "visiting the user index" do
 					before {visit users_path}
 					it {should have_selector('title', text: 'Sign in')}

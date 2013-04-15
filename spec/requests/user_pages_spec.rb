@@ -15,6 +15,7 @@ describe "UserPages" do
       # Non-admin users should be redirected to their profile page if attempting to
       # access the user index page.
       it {should have_selector('title', text: user.name)}
+      it {should_not have_link('Users', href: users_path)}
     end
 
     describe "as an admin" do
@@ -24,6 +25,7 @@ describe "UserPages" do
         visit users_path
       end
 
+      it {should have_link('Users', href: users_path)}
       it {should have_selector('title', text: 'All users')}
       it {should have_selector('h1', text: 'All users')}
 
@@ -43,11 +45,6 @@ describe "UserPages" do
     end
 
     describe "delete links" do
-      # **TODO** Should delete this - no reason to check for the non-existance of
-      # delete links for normal users on the user index because normal users should
-      # not have access to the user index in the first place.
-      #it {should_not have_link('delete')}
-
       describe "as an admin user" do
         let(:admin) {FactoryGirl.create(:admin)}
         before do
