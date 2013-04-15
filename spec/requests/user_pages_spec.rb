@@ -11,25 +11,42 @@ describe "UserPages" do
       visit users_path
     end
 
-    it {should have_selector('title', text: 'All users')}
-    it {should have_selector('h1', text: 'All users')}
+    describe "as a non-admin" do
+      # Non-admin users should be redirected to their profile page if attempting to
+      # access the user index page.
+      it {should have_selector('title', text: user.name)}
+    end
 
-    describe "pagination" do
+    describe "as an admin" do
+      let(:admin) {FactoryGirl.create(:admin)}
+      before do
+        sign_in admin
+        visit users_path
+      end
 
-      before(:all) {30.times {FactoryGirl.create(:user)}}
-      after(:all) {User.delete_all}
+      it {should have_selector('title', text: 'All users')}
+      it {should have_selector('h1', text: 'All users')}
 
-      it {should have_selector('div.pagination')}
+      describe "pagination" do
 
-      it "should list each user" do
-        User.paginate(page: 1).each do |user|
-          page.should have_selector('li', text: user.name)
+        before(:all) {30.times {FactoryGirl.create(:user)}}
+        after(:all) {User.delete_all}
+
+        it {should have_selector('div.pagination')}
+
+        it "should list each user" do
+          User.paginate(page: 1).each do |user|
+            page.should have_selector('li', text: user.name)
+          end
         end
       end
     end
 
     describe "delete links" do
-      it {should_not have_link('delete')}
+      # **TODO** Should delete this - no reason to check for the non-existance of
+      # delete links for normal users on the user index because normal users should
+      # not have access to the user index in the first place.
+      #it {should_not have_link('delete')}
 
       describe "as an admin user" do
         let(:admin) {FactoryGirl.create(:admin)}
