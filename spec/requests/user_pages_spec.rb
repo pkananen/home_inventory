@@ -86,6 +86,8 @@ describe "UserPages" do
       it {should have_content(home1.location)}
       it {should have_content(home2.location)}
       it {should have_content(user.homes.count)}
+      it {should have_link(home1.name, href: home_path(home1))}
+      it {should have_link(home2.name, href: home_path(home2))}
     end
   end
 
