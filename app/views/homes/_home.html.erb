@@ -1,5 +1,7 @@
 <li>
-	<span class="home_name"><%= home.name %></span>
+	<span class="home_name">
+		<%= link_to home.name, home_path(home) %>
+	</span>
 	<span class="home_type">Type: <%= home.home_type %> | </span>
 	<span class="home_location">Location: <%= home.location %></span>
 </li>

@@ -60,6 +60,26 @@ describe "Authentication" do
 					before {post users_path}
 					specify {response.should redirect_to(root_path)}
 				end
+
+				# Redirect to user's own profile page if attempting to access
+				# someone else's profile page.
+				describe "visiting another user's page" do
+					let(:other_user) {FactoryGirl.create(:user, email: "someone-else@exmaple.com")}
+					before {visit user_path(other_user)}
+
+					it {should_not have_selector('title', text: other_user.name)}
+				end
+			end
+
+			describe "in the Homes controller" do
+				describe "visiting another user's home's page" do
+					let(:other_user) {FactoryGirl.create(:user, email: "someone-else@example.com")}
+					let(:home) {FactoryGirl.create(:home, user: other_user)}
+
+					before {visit home_path(home)}
+
+					it {should_not have_selector('title', text: home.name)}
+				end
 			end
 		end
 
@@ -85,6 +105,22 @@ describe "Authentication" do
 				# of the sign-in path.
 				describe "visiting the user index" do
 					before {visit users_path}
+					it {should have_selector('title', text: 'Sign in')}
+				end
+
+				# Redirect to sign in page if attempting to visit a user's page
+				# without being signed in.
+				describe "attempting to visit a user page" do
+					before {visit user_path(user)}
+					it {should have_selector('title', text: 'Sign in')}
+				end
+			end
+
+			describe "in the Homes controller" do
+				describe "attempting to visit a home page" do
+					let(:home) {FactoryGirl.create(:home, user: user)}
+					before {visit home_path(home)}
+
 					it {should have_selector('title', text: 'Sign in')}
 				end
 			end

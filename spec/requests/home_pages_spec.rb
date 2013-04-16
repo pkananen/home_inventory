@@ -7,7 +7,10 @@ describe "HomePages" do
 		let(:user) {FactoryGirl.create(:user)}
 		let(:home) {FactoryGirl.create(:home, user: user)}
 
-		before {visit home_path(home)}
+		before do
+			sign_in user
+			visit home_path(home)
+		end
 
 		it {should have_selector('title', text: home.name)}
 		it {should have_selector('h1', text: home.name)}

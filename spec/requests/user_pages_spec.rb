@@ -73,7 +73,10 @@ describe "UserPages" do
     let!(:home1) {FactoryGirl.create(:home, user: user, name: "Foo")}
     let!(:home2) {FactoryGirl.create(:home, user: user, name: "Bar")}
 
-  	before {visit user_path(user)}
+  	before do
+      sign_in user
+      visit user_path(user)
+    end
 
   	it {should have_selector('h1', text: user.name)}
   	it {should have_selector('title', text: user.name)}
