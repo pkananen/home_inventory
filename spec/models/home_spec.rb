@@ -53,7 +53,9 @@ describe Home do
   	it "should not allow access to user_id" do
   		expect do
   			Home.new(user_id: user.id)
-		end.to raise_error(ActiveModel::MassAssignmentSecurity::Error)
-	end
+		  end.to raise_error(ActiveModel::MassAssignmentSecurity::Error)
+	 end
   end
+
+  # Item associations tests
 end
