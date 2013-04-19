@@ -15,8 +15,8 @@ describe "HomePages" do
 		it {should have_selector('title', text: home.name)}
 		it {should have_selector('h1', text: home.name)}
 
-		it {should have_link('Add Item', href: '#')}
-		it {should have_link('Edit Home', href: edit_home_path(home))}
+		it {should have_link('Add item', href: '#')}
+		it {should have_link('Edit home', href: edit_home_path(home))}
 
 		# items list tests
 	end
@@ -28,7 +28,7 @@ describe "HomePages" do
 
 		before do
 			sign_in user
-			visit new_homes_path
+			visit new_home_path
 		end
 
 		it {should have_selector('title', text: title)}
@@ -36,9 +36,9 @@ describe "HomePages" do
 		describe "with invalid information" do
 			it "should not create a home" do
 				expect {click_button submit}.not_to change(Home, :count)
-
-				it {should have_selector('title', text: title)}
 			end
+
+			it {should have_selector('title', text: title)}
 		end
 
 		describe "with valid information" do

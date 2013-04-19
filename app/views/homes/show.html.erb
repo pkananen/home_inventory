@@ -1,3 +1,4 @@
 <% provide(:title, @home.name) %>
 <h1><%= @home.name %></h1>
-<%= link_to "Add Item", '#' %>
+<%= link_to "Add item", '#' %>
+<%= link_to "Edit home", edit_home_path(@home) %>
