@@ -7,4 +7,10 @@ class ApplicationController < ActionController::Base
   	sign_out
   	super
   end
+
+  # Probably overkill currently, but the authentication system could become
+  # more complicated in the future.
+  def check_correct_user(user)
+  	current_user?(user)
+  end
 end

@@ -7,5 +7,6 @@
 			<%= render 'fields', f: f %>
 			<%= f.submit "Save changes", class: "btn btn-large btn-primary" %>
 		<% end %>
+		<%= link_to "delete", @home, method: :delete, data: {confirm: "You sure?"} %>
 	</div>
 </div>
